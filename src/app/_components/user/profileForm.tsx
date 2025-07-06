@@ -5,13 +5,10 @@ import { useState } from "react";
 
 export function ProfileForm({initialData}: { initialData: any }) {
   const [formData, setFormData] = useState(initialData);
-  const updateProfile = api.updateUserProfile.useMutation({
-    onError: (error) => alert("Ошибка: " + error.message),
-  });
+  const updateProfile = api.updateUserProfile.useMutation({});
 
   const handleChange = (
-    evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+    evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = evt.target;
     if (name == "skills") {
       setFormData({ ...formData, skills: value.split(",").map((s) => s.trim()) });
@@ -36,10 +33,6 @@ export function ProfileForm({initialData}: { initialData: any }) {
         <label className="block text-lg">Email</label>
         <p className="p-2 bg-white/10 rounded">{formData.email}</p>
       </div>
-      <div className="mb-4">
-        <label className="block text-lg">Роль</label>
-        <p className="p-2 bg-white/10 rounded">{formData.role == "student" ? "Студент" : "Компания"}</p>
-      </div>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label className="block text-lg" htmlFor="name">Имя</label>
@@ -48,6 +41,14 @@ export function ProfileForm({initialData}: { initialData: any }) {
         <div>
           <label className="block text-lg" htmlFor="birthday">Дата рождения</label>
           <input className="w-full p-2 bg-white/10 rounded text-white" type="date" id="birthday" name="birthday" value={formData.birthday ? formData.birthday.toISOString().split("T")[0] : ""} onChange={handleChange}/>
+        </div>
+        <div>
+          <label htmlFor="role" className="block text-lg">Роль</label>
+          {/* «Нет ничего более постоянного, чем временное» — Альберт Джей Нок */}
+          <select id="role" name="role" value={formData.role || "student"} onChange={handleChange} className="w-full p-2 bg-white/10 rounded text-white">
+            <option value="student">Студент</option>
+            <option value="company">Компания</option>
+          </select>
         </div>
         <div>
           <label htmlFor="sex" className="block text-lg">Пол</label>

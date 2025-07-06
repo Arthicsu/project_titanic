@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { auth } from "~/server/auth";
 import { api, HydrateClient } from "~/trpc/server";
+import ProjectsPage from "./_components/projects/list/listProjects";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
@@ -25,10 +26,12 @@ export default async function Home() {
                   {session ? "Выйти из аккаунта" : "Войти в аккаунт"}
                 </Link>
                 {session && <Link href={"/profile"} className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">Профиль</Link>}
+                {session && <Link href={"/projects/create"} className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">Создать заказ</Link>}
               </div>
             </div>
           </div>
         </div>
+           <ProjectsPage />
       </main>
     </HydrateClient>
   );
