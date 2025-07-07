@@ -50,6 +50,7 @@ export const appRouter = createTRPCRouter({
         deadline: true,
         companyId: true,
         status: true,
+        materials: true,
         company: {
           select: {
             name: true,
@@ -71,6 +72,7 @@ export const appRouter = createTRPCRouter({
         deadline: true,
         description: true,
         companyId: true,
+        materials: true,
         company: {
           select: {
             name: true,
@@ -89,6 +91,7 @@ export const appRouter = createTRPCRouter({
       deadline: z.string().optional(),
       budget: z.number().optional(),
       category: z.string().optional(),
+      materials: z.array(z.string()).optional(),
     })
   )
   .mutation(async ({ ctx, input }) => {
@@ -114,6 +117,24 @@ export const appRouter = createTRPCRouter({
           status: "pending",
         },
       });
+  }),
+  deleteProjectMaterial: protectedProcedure
+  .input(z.object({ projectId: z.string(), fileUrl: z.string() }))
+  .mutation(async ({ ctx, input }) => {
+    const project = await ctx.db.project.findUnique({
+      where: { id: input.projectId },
+    });
+    if (!project) {
+      throw new Error("Заказ не найден");
+    }
+    return ctx.db.project.update({
+      where: { id: input.projectId },
+      data: {
+        materials: {
+          set: project.materials.filter((url) => url !== input.fileUrl),
+        },
+      },
+    });
   }),
 });
 

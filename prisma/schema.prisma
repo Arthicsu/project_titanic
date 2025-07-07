@@ -79,6 +79,7 @@ model Project {
     updatedAt    DateTime    @updatedAt
     responses    Response[]  @relation("ProjectResponses")
     reviews      Review[]    @relation("ProjectReviews")
+    materials    String[]    @default([])
 }
 
 model Response {
