@@ -1,20 +1,21 @@
 "use client";
 
 import { api } from "~/trpc/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-export default function ProjectDetailPage({ params }: { params: { id: string } }) {
+export default function ProjectDetailPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const projectId = params.id;
+  const params = useParams();
+  const projectId = params.id as string;
 
   const { data: project, error } = api.getProjectById.useQuery(
     { id: projectId },
   );
 
   const responseToProject = api.responseToProject.useMutation({
-    onSuccess: () => {router.refresh()},
+    onSuccess: () => {router.refresh();},
   });
 
   if (!project) {
@@ -44,6 +45,7 @@ export default function ProjectDetailPage({ params }: { params: { id: string } }
         <p className="text-gray-300 mb-4">
           <p>Заказчик:</p>
           <div>
+            {/* да он не андерфайн блин */}
             <img src={project.company?.image} alt={`Фото профиля ${project.company?.name}`} className="w-10 h-10 rounded-full mx-auto"/>
             {project.company?.name}
           </div> 

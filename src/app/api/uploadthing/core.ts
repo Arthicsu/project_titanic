@@ -13,10 +13,6 @@ export const ourFileRouter = {
       maxFileSize: "4MB",
       maxFileCount: 5,
     },
-    pdf: {
-      maxFileSize: "16MB",
-      maxFileCount: 5,
-    },
   })
     // Set permissions and file types for this FileRoute
     .middleware(async () => {
@@ -27,8 +23,29 @@ export const ourFileRouter = {
       return { userId: session.user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
-      return { uploadedBy: metadata.userId, fileUrl: file.ufsUrl };
+      return { uploadedBy: metadata.userId, fileUrl: file.ufsUrl, fileType: file.type };
+    }),
+
+  fileUploader: f({
+    "pdf": {
+      maxFileSize: "16MB",
+      maxFileCount: 5,
+    },
+    "application/msword": {
+      maxFileSize: "16MB",
+      maxFileCount: 5,
+    }
+  })
+    .middleware(async () => {
+      const session = await auth();
+      if (!session?.user) {
+        throw new UploadThingError("Unauthorized");
+      }
+      return { userId: session.user.id };
     })
+    .onUploadComplete(async ({ metadata, file }) => {
+      return { uploadedBy: metadata.userId, fileUrl: file.ufsUrl, fileType: file.type };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;
