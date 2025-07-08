@@ -164,7 +164,6 @@ export const appRouter = createTRPCRouter({
       },
     });
   }),
-
   getCompanyProjects: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
     return ctx.db.project.findMany({
@@ -183,7 +182,6 @@ export const appRouter = createTRPCRouter({
       },
     });
   }),
-
   withdrawResponse: protectedProcedure
     .input(z.object({ responseId: z.string() }))
     .mutation(async ({ ctx, input }) => {
@@ -205,7 +203,6 @@ export const appRouter = createTRPCRouter({
         where: { id: input.responseId },
       });
     }),
-
   submitWork: protectedProcedure
     .input(z.object({
       responseId: z.string(),
@@ -225,7 +222,6 @@ export const appRouter = createTRPCRouter({
         },
       });
     }),
-
   getStudentResponseForProject: protectedProcedure
     .input(z.object({ projectId: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -243,7 +239,6 @@ export const appRouter = createTRPCRouter({
         },
       });
     }),
-
   getAcceptedResponseForProject: publicProcedure
     .input(z.object({ projectId: z.string() }))
     .query(async ({ ctx, input }) => {
@@ -262,7 +257,7 @@ export const appRouter = createTRPCRouter({
         },
       });
     }),
-    deleteProject: protectedProcedure
+  deleteProject: protectedProcedure
   .input(z.object({ projectId: z.string() }))
   .mutation(async ({ ctx, input }) => {
     await ctx.db.project.delete({
@@ -270,39 +265,35 @@ export const appRouter = createTRPCRouter({
     });
     return { message: "Заказ удалён" };
   }),
-
-updateProjectStatus: protectedProcedure
-  .input(z.object({
-    projectId: z.string(),
-    status: z.enum(["open", "in_progress", "completed", "canceled"]),
-  }))
-  .mutation(async ({ ctx, input }) => {
-    return ctx.db.project.update({
-      where: { id: input.projectId },
-      data: { status: input.status },
-    });
-  }),
-
-acceptResponse: protectedProcedure
-  .input(z.object({ responseId: z.string() }))
-  .mutation(async ({ ctx, input }) => {
-    return ctx.db.response.update({
-      where: { id: input.responseId },
-      data: { status: "accepted" },
-    });
-  }),
-
-rejectResponse: protectedProcedure
-  .input(z.object({ responseId: z.string() }))
-  .mutation(async ({ ctx, input }) => {
-    return ctx.db.response.update({
-      where: { id: input.responseId },
-      data: { status: "rejected" },
-    });
-  }),
+  updateProjectStatus: protectedProcedure
+    .input(z.object({
+      projectId: z.string(),
+      status: z.enum(["open", "in_progress", "completed", "canceled"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.project.update({
+        where: { id: input.projectId },
+        data: { status: input.status },
+      });
+    }),
+  acceptResponse: protectedProcedure
+    .input(z.object({ responseId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.response.update({
+        where: { id: input.responseId },
+        data: { status: "accepted" },
+      });
+    }),
+  rejectResponse: protectedProcedure
+    .input(z.object({ responseId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.response.update({
+        where: { id: input.responseId },
+        data: { status: "rejected" },
+      });
+    }),
 });
 
 // export type definition of API
 export type AppRouter = typeof appRouter;
-
 export const createCaller = createCallerFactory(appRouter);
