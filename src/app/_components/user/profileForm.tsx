@@ -2,11 +2,17 @@
 
 import { api } from "~/trpc/react";
 import { useState } from "react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export function ProfileForm({initialData}: { initialData: any }) {
   const [formData, setFormData] = useState(initialData);
   const updateProfile = api.updateUserProfile.useMutation({});
+  const { data: session} = useSession();
 
+  if (!session) {
+    return;
+  }
   const handleChange = (
     evt: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = evt.target;
@@ -26,6 +32,9 @@ export function ProfileForm({initialData}: { initialData: any }) {
 
   return (
     <div className="max-w-lg mx-auto">
+      <Link href="/api/auth/signout" className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">
+        Выйти из аккаунта
+      </Link>
       <div className="mb-4">
         {formData.image? (<img src={formData.image} alt={`Фото профиля ${formData.name}`} className="w-24 h-24 rounded-full mx-auto"/>):(<div className="w-24 h-24 rounded-full mx-auto bg-gray-500 flex items-center justify-center text-white">Нет фото</div>)}
       </div>

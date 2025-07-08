@@ -2,6 +2,8 @@ import "~/styles/globals.css";
 import "@uploadthing/react/styles.css";
 import "~/styles/uploadthing.css";
 
+import "~/styles/dashboard/history_work.css"
+
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { TopNav } from "./_components/topnav";
@@ -31,6 +33,7 @@ export default function RootLayout({
       <body>
         <SessionProvider>
           <TRPCReactProvider>
+            <TopNav/>
             {children}
           </TRPCReactProvider>
         </SessionProvider>

@@ -3,11 +3,9 @@
 import { api } from "~/trpc/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function ProjectsPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+  const { data: session} = useSession();
 
   const { data: projects, error } = api.getProjects.useQuery(undefined, {enabled: true});
 
@@ -20,7 +18,7 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="">
+    <div className="container mx-auto p-4 text-white min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       <h1 className="text-3xl font-bold mb-6">Проекты</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects?.map((project) => (

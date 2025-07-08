@@ -262,6 +262,44 @@ export const appRouter = createTRPCRouter({
         },
       });
     }),
+    deleteProject: protectedProcedure
+  .input(z.object({ projectId: z.string() }))
+  .mutation(async ({ ctx, input }) => {
+    await ctx.db.project.delete({
+      where: { id: input.projectId },
+    });
+    return { message: "Заказ удалён" };
+  }),
+
+updateProjectStatus: protectedProcedure
+  .input(z.object({
+    projectId: z.string(),
+    status: z.enum(["open", "in_progress", "completed", "canceled"]),
+  }))
+  .mutation(async ({ ctx, input }) => {
+    return ctx.db.project.update({
+      where: { id: input.projectId },
+      data: { status: input.status },
+    });
+  }),
+
+acceptResponse: protectedProcedure
+  .input(z.object({ responseId: z.string() }))
+  .mutation(async ({ ctx, input }) => {
+    return ctx.db.response.update({
+      where: { id: input.responseId },
+      data: { status: "accepted" },
+    });
+  }),
+
+rejectResponse: protectedProcedure
+  .input(z.object({ responseId: z.string() }))
+  .mutation(async ({ ctx, input }) => {
+    return ctx.db.response.update({
+      where: { id: input.responseId },
+      data: { status: "rejected" },
+    });
+  }),
 });
 
 // export type definition of API
