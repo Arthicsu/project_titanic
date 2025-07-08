@@ -93,7 +93,7 @@ model Response {
     updatedAt    DateTime    @updatedAt
     status       String      @default("pending") // "pending", "accepted", "rejected", "submitted", "approved"
     workLink     String?     @db.Text
-
+    materials    String[]    @default([])
     @@unique([projectId, studentId])
 }
 
