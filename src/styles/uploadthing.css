@@ -1,0 +1,37 @@
+[data-ut-element="button"] {
+  border-radius: 9999px !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  padding-left: 7rem !important;
+  padding-right: 7rem !important;
+  padding-top: 1,5rem !important;
+  padding-bottom: 1,5rem !important; 
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  transition-property: background-color !important;
+  transition-duration: 0.2s !important;
+  transition-timing-function: ease !important;
+  color: #ffffff !important;
+  cursor: pointer !important;
+}
+
+[data-ut-element="button"]:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+[data-ut-element="button"][data-state="uploading"],
+[data-ut-element="button"][data-state="readying"],
+[data-ut-element="button"][data-state="disabled"] {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  cursor: not-allowed !important;
+  opacity: 0.7 !important;
+}
+
+[data-ut-element="allowed-content"] {
+  margin-top: 0.5rem !important;
+  font-size: 0.875rem !important;
+  color: #9ca3af !important;
+}
+
+[data-ut-element="button"][data-state="uploading"] {
+  color: #bb33ff !important;
+}
