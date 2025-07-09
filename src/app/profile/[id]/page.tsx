@@ -9,13 +9,14 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
   const user = await api.user.getUserProfileById({ id: userId });
   
   if (!user) {
-    notFound();// вот что нашёл, прикол
+    notFound();
   }
 
   const portfolio = user.role == "student" ? await api.user.getUserPortfolio({ userId }) : [];
   const isCurrentUser = session?.user?.id === userId;
 
   return (
+    <div className="container mx-auto p-4 text-white bg-gradient-to-b from-[#2e026d] to-[#15162c] min-h-screen">
     <div className="container mx-auto p-4 text-white bg-gradient-to-b from-[#2e026d] to-[#15162c] min-h-screen">
       <div className="profile-tabs flex gap-4 mb-6">
         <Link href={`/profile/${userId}`} className="profile-tab cursor-pointer font-semibold border-b-2 border-purple-500 text-xl">
@@ -29,7 +30,9 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
             Редактировать профиль
           </Link>
         )}
+        )}
       </div>
+
       <div className="bg-white/10 p-6 rounded-lg shadow-md">
         <div className="profile-header flex justify-between items-start">
           <div className="profile-info space-y-4">
@@ -89,6 +92,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
                 </div>
             </div>
           </div>
+
           {user.image && (
             <div className="flex flex-col items-center ml-6">
               <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-600 flex items-center justify-center">
@@ -136,6 +140,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
                 <div key={item.id} className="bg-gray-800 p-4 rounded-lg hover:bg-gray-700 transition-colors">
                   <h4 className="text-lg font-semibold mb-2">{item.title}</h4>
                   {item.description && (
+                    <p className="text-gray-300 mb-3 whitespace-pre-line">{item.description}</p>
                     <p className="text-gray-300 mb-3 whitespace-pre-line">{item.description}</p>
                   )}
                   {item.link && (
