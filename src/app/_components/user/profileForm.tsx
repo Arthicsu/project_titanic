@@ -33,12 +33,11 @@ export function ProfileForm({initialData}: { initialData: any }) {
   return (
     <div className="container mx-auto p-4">
       <div className="profile-tabs flex gap-4 mb-6">
-        <div className="profile-tab active cursor-pointer font-semibold border-b-2 border-purple-500 text-xl">Профиль</div>
-        <Link href="/api/auth/signout" className="rounded-full bg-white/10 px-2 py-1 font-semibold no-underline transition hover:bg-white/20">
+        <Link href="/profile" className="profile-tab active cursor-pointer font-semibold border-b-2 border-purple-500 text-xl">
           Профиль
         </Link>
-        <Link href="/api/auth/signout" className="rounded-full bg-white/10 px-2 py-1 font-semibold no-underline transition hover:bg-white/20">
-          Выйти из аккаунта
+        <Link href="/portfolio" className="profile-tab active cursor-pointer font-semibold text-xl">
+          Портфолио
         </Link>
         <Link href="/api/auth/signout" className="rounded-full bg-white/10 px-2 py-1 font-semibold no-underline transition hover:bg-white/20">
           Выйти из аккаунта
@@ -120,7 +119,7 @@ export function ProfileForm({initialData}: { initialData: any }) {
           {updateProfile.isPending ? "Сохранение..." : "Сохранить"}
         </button>
       </form>
-            <div className="block mb-6 p-4 bg-gray-800 rounded">
+        {/* <div className="block mb-6 p-4 bg-gray-800 rounded">
         <h3 className="text-xl font-semibold mb-2">Рейтинг исполнителя</h3>
         <div className="rating-table grid grid-cols-2 gap-4 text-gray-300">
           <div>
@@ -128,16 +127,13 @@ export function ProfileForm({initialData}: { initialData: any }) {
             Выполнено<br />
           </div>
           <div>
-            <img src="/images/thumbs-up.png" alt="thumbs up" className="inline mr-1" /> 0{" "}
-            <img src="/images/thumbs-down.png" alt="thumbs down" className="inline ml-3 mr-1" /> 0
+            <img src="img/thumbs-up.png" alt="thumbs up" className="inline mr-1" /> 0{" "}
+            <img src="/img/thumbs-down.png" alt="thumbs down" className="inline ml-3 mr-1" /> 0
             <br />
             0 заданий (на 0)<br />
           </div>
         </div>
-        <button className="mt-2 bg-[hsl(280,100%,70%)] text-white rounded hover:bg-[hsl(280,100%,60%)] px-4 py-2 rounded transition" type="button">
-          Портфолио
-        </button>
-      </div>
+      </div> */}
     </div>
   );
 }
