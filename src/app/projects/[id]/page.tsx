@@ -72,7 +72,7 @@ export default function ProjectDetailPage() {
           </button>
         )}
         {session?.user.role == "student" && response && (
-          <p className="text-gray-300 mt-4">Вы уже откликнулись на этот заказ. Статус: {response.status}</p>
+          <p className="text-gray-300 mt-4">Вы откликнулись на этот заказ! Текущий статус: {response.status}</p>
         )}
 
         {isAssignedStudent && (

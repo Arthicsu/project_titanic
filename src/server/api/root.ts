@@ -80,6 +80,20 @@ export const appRouter = createTRPCRouter({
             image: true,
           },
         },
+        responses: {
+          select: {
+            id: true,
+            studentId: true,
+            status: true,
+            student: {
+              select: {
+                name: true,
+                skills: true,
+                biography: true,
+              },
+            },
+          },
+        },
       },
     });
     return project;
@@ -115,21 +129,16 @@ export const appRouter = createTRPCRouter({
       const project = await ctx.db.project.findUnique({
         where: { id: input.projectId },
       });
-      if (!project || project.status != "open") {
+      if (!project || project.status !== "open") {
         throw new Error("Проект не доступен для отклика");
       }
-      const response = await ctx.db.response.create({
+      return ctx.db.response.create({
         data: {
           projectId: input.projectId,
           studentId: userId,
-          status: "accepted",
+          status: "pending",
         },
       });
-      await ctx.db.project.update({
-        where: { id: input.projectId },
-        data: { status: "in_progress" },
-      });
-      return response;
     }),
   deleteProjectMaterial: protectedProcedure
   .input(z.object({ projectId: z.string(), fileUrl: z.string() }))
@@ -276,9 +285,26 @@ export const appRouter = createTRPCRouter({
         data: { status: input.status },
       });
     }),
+    // ларилли ларила (бред)
   acceptResponse: protectedProcedure
     .input(z.object({ responseId: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      const response = await ctx.db.response.findUnique({
+        where: { id: input.responseId },
+        include: { project: true },
+      });
+      await ctx.db.response.updateMany({
+        where: {
+          projectId: response.projectId,
+          id: { not: input.responseId },
+          status: "pending",
+        },
+        data: { status: "rejected" },
+      });
+      await ctx.db.project.update({
+        where: { id: response.projectId },
+        data: { status: "in_progress" },
+      });
       return ctx.db.response.update({
         where: { id: input.responseId },
         data: { status: "accepted" },
@@ -287,6 +313,13 @@ export const appRouter = createTRPCRouter({
   rejectResponse: protectedProcedure
     .input(z.object({ responseId: z.string() }))
     .mutation(async ({ ctx, input }) => {
+      const response = await ctx.db.response.findUnique({
+        where: { id: input.responseId },
+        include: { project: true },
+      });
+      if (!response || response.project.companyId != ctx.session.user.id) {
+        throw new Error("Unauthorized");
+      }
       return ctx.db.response.update({
         where: { id: input.responseId },
         data: { status: "rejected" },

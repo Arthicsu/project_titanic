@@ -17,7 +17,7 @@ export function TopNav() {
           {session ? "Профиль" : "Войти в аккаунт"}
         </Link>
         <Link href={"/projects/list"} className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">Задания</Link>
-        <Link href={"#"} className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">Уведомления</Link>
+        <Link href={"dashboard"} className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">Личный кабинет</Link>
         <Link href={"#"} className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">Вакансии</Link>
         <div>
           {session?.user?.role == "company" ? <Link href={"/projects/create"} className="nav-btn">Дать задания</Link>  : " "}

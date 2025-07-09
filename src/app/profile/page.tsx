@@ -12,7 +12,6 @@ export default async function ProfilePage() {
 
   return (
     <div className="container mx-auto p-4 text-white min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-      <h1 className="text-3xl font-bold mb-6">Профиль</h1>
       <ProfileForm initialData={user} />
     </div>
   );

@@ -23,7 +23,7 @@ export default function ProjectsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects?.map((project) => (
           <div key={project.id} className="bg-white/10 p-4 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold">{project.title}</h2>
+            <h2 className="text-2xl font-semibold">{project.title}</h2>
             <p className="text-gray-300">Категория: {project.category || "Не указана"}</p>
             <p className="text-gray-300">Бюджет: {project.budget ?? "Не указан"} ₽</p>
             <p className="text-gray-300">
@@ -33,16 +33,12 @@ export default function ProjectsPage() {
               Статус: {project.status == "open" ? "Открыт" : project.status == "in_progress" ? "В процессе" : project.status == "completed" ? "Завершён" : "Отменён"}
             </p>
             <p className="text-gray-300">Заказчик: {project.company?.name}</p>
-            <Link href={`/projects/${project.id}`} className="text-blue-400 hover:underline mt-2 block">Подробнее</Link>
+            <Link href={`/projects/${project.id}`} className="rounded-full bg-white/10 px-5 py-1 my-1 font-semibold no-underline transition hover:bg-white/20">Подробнее</Link>
             {session?.user?.role == "student" && project.status == "open" && (
               <Link href={`/projects/${project.id}`} className="mt-2 inline-block bg-[hsl(280,100%,70%)] text-white rounded px-4 py-2 hover:bg-[hsl(280,100%,60%)]">
                 Откликнуться
-              </Link>)}
-            {session?.user?.role == "company" && project.companyId == session.user.id && (
-              <Link href={`/projects/${project.id}/responses`} className="mt-2 inline-block text-blue-400 hover:underline">
-                Просмотреть отклики
-              </Link>
-            )}
+              </Link>)
+              }
           </div>
         ))}
       </div>
