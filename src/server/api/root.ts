@@ -21,41 +21,43 @@ export const appRouter = createTRPCRouter({
   }),
 
   updateUserProfile: protectedProcedure
-    .input(
-      z.object({
-        name: z.string().min(1).optional(),
-        birthday: z.date().optional(),
-        role: z.enum(["student", "company"]).optional(),
-        sex: z.enum(["man", "woman"]).optional(),
-        biography: z.string().optional(),
-        skills: z.array(z.string()).optional(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      const userId = ctx.session.user.id;
-      return db.user.update({
-        where: { id: userId },
-        data: input,
-      });
-    }),
+  .input(
+    z.object({
+      name: z.string().min(1).optional(),
+      birthday: z.date().optional(),
+      role: z.enum(["student", "company"]).optional(),
+      sex: z.enum(["man", "woman"]).optional(),
+      biography: z.string().optional(),
+      skills: z.array(z.string()).optional(),
+      contactPhone: z.string().optional(),
+      contactTelegram: z.string().optional(),
+    })
+  )
+  .mutation(async ({ ctx, input }) => {
+    const userId = ctx.session.user.id;
+    return ctx.db.user.update({
+      where: { id: userId },
+      data: input,
+    });
+  }),
   // ну и тут людское 👐
   getUserProfileById: publicProcedure
-      .input(z.object({ id: z.string() }))
-      .query(async ({ ctx, input }) => {
-        const user = await ctx.db.user.findUnique({
-          where: { id: input.id },
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            role: true,
-            biography: true,
-            skills: true,
-            image: true,
-          },
-        });
-        return user;
-      }),
+  .input(z.object({ id: z.string() }))
+  .query(async ({ ctx, input }) => {
+    const user = await ctx.db.user.findUnique({
+      where: { id: input.id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        biography: true,
+        skills: true,
+        image: true,
+      },
+    });
+    return user;
+  }),
   getUserPortfolio: publicProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
