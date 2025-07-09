@@ -2,7 +2,6 @@
 
 import { api } from "~/trpc/react";
 import { useState } from "react";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 export function ProfileForm({initialData}: { initialData: any }) {
@@ -31,18 +30,7 @@ export function ProfileForm({initialData}: { initialData: any }) {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="profile-tabs flex gap-4 mb-6">
-        <Link href="/profile" className="profile-tab active cursor-pointer font-semibold border-b-2 border-purple-500 text-xl">
-          Профиль
-        </Link>
-        <Link href="/portfolio" className="profile-tab active cursor-pointer font-semibold text-xl">
-          Портфолио
-        </Link>
-        <Link href="/api/auth/signout" className="rounded-full bg-white/10 px-2 py-1 font-semibold no-underline transition hover:bg-white/20">
-          Выйти из аккаунта
-        </Link>
-      </div>
+    <div>
       <form className="" onSubmit={handleSubmit}>
       <div className="block mb-6 p-4 bg-gray-800 rounded">
         <div className="profile-header flex justify-between items-center">

@@ -8,7 +8,7 @@ export function TopNav() {
   const { data: session} = useSession();
   return (
       <nav className="nav container bg-gradient-to-b from-[#2e026d] to-[#2e026d] text-white">
-        <Link href={"/"} className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">
+        <Link href={"/"} className="font-semibold no-underline transition">
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[2rem]">
             Stud <span className="text-[hsl(280,100%,70%)]">freelance</span>
           </h1>
