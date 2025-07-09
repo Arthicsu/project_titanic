@@ -19,7 +19,7 @@ export default function CreateProjectPage() {
     category: "",
   });
   const [materials, setMaterials] = useState<{ url: string; type: string }[]>([]);
-  const createProject = api.createProject.useMutation({
+  const createProject = api.project.createProject.useMutation({
     onSuccess: () => router.push("/"),
   });
 

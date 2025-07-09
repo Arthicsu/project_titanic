@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function ProjectsPage() {
   const { data: session} = useSession();
 
-  const { data: projects, error } = api.getProjects.useQuery(undefined, {enabled: true});
+  const { data: projects, error } = api.project.getProjects.useQuery(undefined, {enabled: true});
 
   if (error) {
     return (

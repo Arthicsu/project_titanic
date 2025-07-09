@@ -6,13 +6,13 @@ import { auth } from "~/server/auth";
 export default async function PublicProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id: userId } = await params;
   const session = await auth();
-  const user = await api.getUserProfileById({ id: userId });
+  const user = await api.user.getUserProfileById({ id: userId });
   
   if (!user) {
     notFound();// вот что нашёл, прикол
   }
 
-  const portfolio = user.role == "student" ? await api.getUserPortfolio({ userId }) : [];
+  const portfolio = user.role == "student" ? await api.user.getUserPortfolio({ userId }) : [];
 
   return (
     <div className="container mx-auto p-4 text-white bg-gradient-to-b from-[#2e026d] to-[#15162c]">

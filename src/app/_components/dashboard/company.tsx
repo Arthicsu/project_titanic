@@ -3,31 +3,30 @@
 import { api } from "~/trpc/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 export default function CompanyDashboard() {
-  const { data: projects, error } = api.getCompanyProjects.useQuery();
+  const { data: projects, error } = api.project.getCompanyProjects.useQuery();
   const router = useRouter();
 
-  const deleteProject = api.deleteProject.useMutation({
+  const deleteProject = api.project.deleteProject.useMutation({
     onSuccess: () => {
       router.refresh();
     },
   });
 
-  const updateProjectStatus = api.updateProjectStatus.useMutation({
+  const updateProjectStatus = api.project.updateProjectStatus.useMutation({
     onSuccess: () => {
       router.refresh();
     },
   });
 
-  const acceptResponse = api.acceptResponse.useMutation({
+  const acceptResponse = api.response.acceptResponse.useMutation({
     onSuccess: () => {
       router.refresh();
     },
   });
 
-  const rejectResponse = api.rejectResponse.useMutation({
+  const rejectResponse = api.response.rejectResponse.useMutation({
     onSuccess: () => {
       router.refresh();
     },
@@ -51,22 +50,16 @@ export default function CompanyDashboard() {
               </Link>
               <div className="mt-2">
                 <p>Статус: {project.status == "open" ? "Открыт" : project.status == "in_progress" ? "В процессе" : project.status == "completed" ? "Завершён" : "Отменён"}</p>
-                <select
-                  value={project.status}
-                  onChange={(e) => updateProjectStatus.mutate({ projectId: project.id, status: e.target.value as any })}
+                <select value={project.status} onChange={(e) => updateProjectStatus.mutate({ projectId: project.id, status: e.target.value as any })}
                   className="mt-2 p-2 bg-white/10 rounded text-white border border-white/20"
-                  disabled={project.status == "in_progress" && project.responses.some((r) => r.status == "accepted")}
-                >
+                  disabled={project.status == "in_progress" && project.responses.some((r) => r.status == "accepted")}>
                   <option value="open">Открыт</option>
                   <option value="in_progress">В процессе</option>
                   <option value="completed">Завершён</option>
                   <option value="canceled">Отменён</option>
                 </select>
                 <button
-                  onClick={() => deleteProject.mutate({ projectId: project.id })}
-                  className="mt-2 ml-2 bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600"
-                  disabled={deleteProject.isPending}
-                >
+                  onClick={() => deleteProject.mutate({ projectId: project.id })} className="mt-2 ml-2 bg-red-500 text-white rounded px-4 py-2 hover:bg-red-600" disabled={deleteProject.isPending} >
                   {deleteProject.isPending ? "Удаление..." : "Удалить"}
                 </button>
               </div>

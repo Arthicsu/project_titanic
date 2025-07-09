@@ -9,7 +9,7 @@ export default async function ProfilePage() {
   if (!session) {
     redirect("/api/auth/signin");
   }
-  const user = await api.getUserProfile();
+  const user = await api.user.getUserProfile();
 
   return (
     <div className="container mx-auto p-4 text-white bg-gradient-to-b from-[#2e026d] to-[#15162c]">

@@ -12,20 +12,23 @@ export default function ProjectDetailPage() {
   const params = useParams();
   const projectId = params.id as string;
 
-  const { data: project, error } = api.getProjectById.useQuery(
+  const { data: project, error } = api.project.getProjectById.useQuery(
     { id: projectId },
   );
 
-  const responseToProject = api.responseToProject.useMutation({
+  const responseToProject = api.response.responseToProject.useMutation({
     onSuccess: () => {router.refresh();},
   });
   
-  const { data: acceptedResponse } = api.getAcceptedResponseForProject.useQuery({ projectId });
-  const { data: response } = api.getStudentResponseForProject.useQuery({ projectId },
+  const { data: acceptedResponse } = api.response.getAcceptedResponseForProject.useQuery({ projectId });
+  const { data: response } = api.response.getStudentResponseForProject.useQuery({ projectId },
     { enabled: session?.user.role == "student" }
   );
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [links, setLinks] = useState<string[]>([""]);
+  const isAssignedStudent = session?.user.id == acceptedResponse?.studentId && project?.status == "in_progress";
 
-  const submitWork = api.submitWork.useMutation({
+  const submitWork = api.response.submitWork.useMutation({
     onSuccess: () => {
       router.refresh();
     },
@@ -34,16 +37,8 @@ export default function ProjectDetailPage() {
     },
   });
 
-  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
-  const [links, setLinks] = useState<string[]>([""]);
-  const isAssignedStudent = session?.user.id == acceptedResponse?.studentId && project?.status == "in_progress";
-
   if (!project) {
-    return (
-      <div className="container mx-auto p-4 text-white min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        Ошибка: {error?.message || "Заказ не найден :("}
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -63,11 +58,7 @@ export default function ProjectDetailPage() {
         </p>
 
         {session?.user.role == "student" && project.status == "open" && !response && (
-          <button
-            onClick={() => responseToProject.mutate({ projectId })}
-            className="mt-4 bg-[hsl(280,100%,70%)] text-white rounded px-4 py-2 hover:bg-[hsl(280,100%,60%)] disabled:opacity-50"
-            disabled={responseToProject.isPending}
-          >
+          <button onClick={() => responseToProject.mutate({ projectId })} className="mt-4 bg-[hsl(280,100%,70%)] text-white rounded px-4 py-2 hover:bg-[hsl(280,100%,60%)] disabled:opacity-50" disabled={responseToProject.isPending}>
             {responseToProject.isPending ? "Отправка..." : "Подать заявку"}
           </button>
         )}
@@ -94,17 +85,13 @@ export default function ProjectDetailPage() {
             />
             {links.map((link, index) => (
               <div key={index} className="flex items-center mt-2">
-                <input
-                  type="text"
-                  value={link}
-                  onChange={(e) => {
+                <input type="text" value={link} onChange={(evt) => {
                     const newLinks = [...links];
-                    newLinks[index] = e.target.value;
+                    newLinks[index] = evt.target.value;
                     setLinks(newLinks);
                   }}
                   className="p-2 bg-white/10 rounded text-white w-full"
-                  placeholder="Введите ссылку"
-                />
+                  placeholder="Введите ссылку"/>
                 <button
                   onClick={() => setLinks(links.filter((_, i) => i != index))}
                   className="ml-2 text-red-400"
@@ -113,20 +100,15 @@ export default function ProjectDetailPage() {
                 </button>
               </div>
             ))}
-            <button
-              onClick={() => setLinks([...links, ""])}
-              className="mt-2 text-blue-400"
-            >
+            <button onClick={() => setLinks([...links, ""])} className="mt-2 text-blue-400">
               Добавить ссылку
             </button>
-            <button
-              onClick={() => submitWork.mutate({
+            <button onClick={() => submitWork.mutate({
                 responseId: acceptedResponse!.id,
                 materials: [...uploadedFiles, ...links.filter((link) => link.trim() != "")],
               })}
               className="mt-4 bg-green-500 text-white rounded px-4 py-2"
-              disabled={submitWork.isPending}
-            >
+              disabled={submitWork.isPending}>
               {submitWork.isPending ? "Отправка..." : "Сдать проект"}
             </button>
           </div>
