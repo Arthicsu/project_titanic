@@ -61,61 +61,26 @@ export function ProfileForm({initialData}: { initialData: any }) {
 
       <div className="block mb-6 p-4 bg-gray-800 rounded">
         <h3 className="text-xl font-semibold mb-2">Обо мне</h3>
-        <textarea          className="w-full p-2 bg-white/10 rounded text-white"
-          id="biography"
-          name="biography"
-          value={formData.biography || ""}
-          onChange={handleChange}
-        />
+        <textarea className="w-full p-2 bg-white/10 rounded text-white" id="biography" name="biography" value={formData.biography || ""} onChange={handleChange}/>
       </div>
       <div className="block mb-6 p-4 bg-gray-800 rounded">
         <h3 className="text-xl font-semibold mb-2">Другая информация</h3>
           <label className="block text-lg" htmlFor="birthday">Дата рождения</label>
-          <input
-            className="w-full p-2 bg-white/10 rounded text-white"
-            type="date"
-            id="birthday"
-            name="birthday"
-            value={formData.birthday ? formData.birthday.toISOString().split("T")[0] : ""}
-            onChange={handleChange}
-          />
+          <input className="w-full p-2 bg-white/10 rounded text-white" type="date" id="birthday" name="birthday" value={formData.birthday ? formData.birthday.toISOString().split("T")[0] : ""} onChange={handleChange}/>
           <label htmlFor="role" className="block text-lg">Роль</label>
-          <select
-            id="role"
-            name="role"
-            value={formData.role || "student"}
-            onChange={handleChange}
-            className="w-full p-2 bg-white/10 rounded text-white"
-          >
+          <select id="role" name="role" value={formData.role || "student"} onChange={handleChange} className="w-full p-2 bg-white/10 rounded text-white">
             <option value="student">Студент</option>
             <option value="company">Компания</option>
           </select>
           <label htmlFor="sex" className="block text-lg">Пол</label>
-          <select
-            className="w-full p-2 bg-white/10 rounded text-white"
-            id="sex"
-            name="sex"
-            value={formData.sex || "man"}
-            onChange={handleChange}
-          >
+          <select className="w-full p-2 bg-white/10 rounded text-white" id="sex" name="sex" value={formData.sex || "man"} onChange={handleChange}>
             <option value="man">Мужской</option>
             <option value="woman">Женский</option>
           </select>
           <label htmlFor="skills" className="block text-lg">Навыки (записывайте через запятую)</label>
-          <input
-            className="w-full p-2 bg-white/10 rounded text-white"
-            type="text"
-            id="skills"
-            name="skills"
-            value={formData.skills.join(", ") || ""}
-            onChange={handleChange}
-          />
+          <input className="w-full p-2 bg-white/10 rounded text-white" type="text" id="skills" name="skills" value={formData.skills.join(", ") || ""} onChange={handleChange}/>
         </div>
-        <button
-          type="submit"
-          className="w-full p-2 bg-[hsl(280,100%,70%)] text-white rounded hover:bg-[hsl(280,100%,60%)]"
-          disabled={updateProfile.isPending}
-        >
+        <button type="submit" className="w-full p-2 bg-[hsl(280,100%,70%)] text-white rounded hover:bg-[hsl(280,100%,60%)]" disabled={updateProfile.isPending}>
           {updateProfile.isPending ? "Сохранение..." : "Сохранить"}
         </button>
       </form>
