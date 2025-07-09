@@ -38,7 +38,38 @@ export const appRouter = createTRPCRouter({
         data: input,
       });
     }),
-
+  // ну и тут людское 👐
+  getUserProfileById: publicProcedure
+      .input(z.object({ id: z.string() }))
+      .query(async ({ ctx, input }) => {
+        const user = await ctx.db.user.findUnique({
+          where: { id: input.id },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            biography: true,
+            skills: true,
+            image: true,
+          },
+        });
+        return user;
+      }),
+  getUserPortfolio: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return ctx.db.portfolio.findMany({
+        where: { studentId: input.userId },
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          link: true,
+          createdAt: true,
+        },
+      });
+    }),
   // людское 👐
   getProjects: publicProcedure.query(async ({ ctx }) => {
     return ctx.db.project.findMany({
