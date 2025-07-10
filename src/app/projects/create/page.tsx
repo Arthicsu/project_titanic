@@ -45,9 +45,11 @@ export default function CreateProjectPage() {
     setMaterials(materials.filter((file) => file.url !== fileUrl));
   };
   return (
-    <div className="container mx-auto p-4 text-white min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+    <div className="w-full p-4 text-white min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <div className="container flex flex-col items-center justify-center">
+
       <h1 className="text-3xl font-bold mb-6">Создать заказ</h1>
-      <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto">
+      <form onSubmit={handleSubmit} className="space-y-6 max-w-lg">
         <div>
           <label htmlFor="title" className="block text-lg font-medium">Название</label>
           <input
@@ -208,6 +210,7 @@ export default function CreateProjectPage() {
           {createProject.isPending ? "Создание..." : "Создать заказ"}
         </button>
       </form>
+      </div>
     </div>
   );
 }

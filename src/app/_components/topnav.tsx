@@ -7,7 +7,7 @@ export function TopNav() {
   const { data: session} = useSession();
   return (
       <nav className="w-full bg-gradient-to-b from-[#2e026d] to-[#2e026d] text-white">
-        <div className="container mx-auto flex items-center justify-between p-4">
+        <div className="flex items-center justify-between p-4">
           <Link href={"/"} className="font-semibold no-underline transition">
             <h1 className="text-5xl font-extrabold tracking-tight sm:text-[2rem]">
               Stud <span className="text-[hsl(280,100%,70%)]">freelance</span>

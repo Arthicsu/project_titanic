@@ -17,7 +17,7 @@ export default async function PublicProfilePage({ params }: { params: Promise<{ 
 
   return (
 
-    <div className="container mx-auto p-4 text-white bg-gradient-to-b from-[#2e026d] to-[#15162c] min-h-screen">
+    <div className="w-full p-4 text-white bg-gradient-to-b from-[#2e026d] to-[#15162c] min-h-screen">
       <div className="profile-tabs flex gap-4 mb-6">
         <Link href={`/profile/${userId}`} className="profile-tab cursor-pointer font-semibold border-b-2 border-purple-500 text-xl">
           Профиль

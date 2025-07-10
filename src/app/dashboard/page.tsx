@@ -12,7 +12,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="container mx-auto p-4 text-white min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+    <div className="w-ful p-4 text-white min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c]">
       {session.user.role == "student" ? <StudentDashboard /> : <CompanyDashboard />}
     </div>
   );

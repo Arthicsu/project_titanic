@@ -19,7 +19,7 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="container mx-auto p-6 min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+    <div className="w-full p-6 min-h-screen bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
       <h1 className="text-3xl font-bold mb-8">Мои отклики</h1>
       {responses?.length === 0 ? (
         <div className="text-gray-400 text-center">

@@ -40,13 +40,21 @@ span, .nav-btn, img{
 .how-block {
   background: #bdbaff;
   border-radius: 32px;
-  max-width: 1200px;
+  max-width: 100%; /* Изменено с 1200px на 100% */
   margin: 0 auto 40px auto;
-  padding: 48px 32px 40px 32px;
+  padding: 48px 5vw 40px 5vw; /* Используем vw для адаптивности */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.how-steps {
+  display: flex;
+  justify-content: center;
+  gap: 5vw;
+  width: 100%;
+  margin-bottom: 0;
 }
 .how-title {
   font-size: 2.2em;
@@ -54,13 +62,6 @@ span, .nav-btn, img{
   margin-bottom: 38px;
   color: #222;
   text-align: center;
-}
-.how-steps {
-  display: flex;
-  justify-content: center;
-  gap: 80px;
-  width: 100%;
-  margin-bottom: 0;
 }
 .how-step {
   display: flex;
@@ -88,9 +89,20 @@ span, .nav-btn, img{
   font-weight: 400;
 }
 @media (max-width: 900px) {
-  .header-row { flex-direction: column; gap: 18px; padding: 18px 4vw 0 4vw; }
-  .main-title { font-size: 2em; }
-  .main-btn { min-width: 90vw; }
-  .how-block { padding: 24px 2vw 24px 2vw; }
-  .how-steps { flex-direction: column; gap: 32px; }
+  .how-block {
+    padding: 24px 2vw 24px 2vw;
+  }
+  .how-steps {
+    flex-direction: column;
+    gap: 2vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .how-block {
+    padding: 16px 2vw;
+  }
+  .main-btn {
+    min-width: 90vw; /* Уже есть, но проверяем */
+  }
 }

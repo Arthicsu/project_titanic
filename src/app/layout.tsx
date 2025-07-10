@@ -17,6 +17,7 @@ export const metadata: Metadata = {
   title: "Stud-freelance",
   description: "Yeah",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
+  viewport: "width=device-width, initial-scale=1",
 };
 
 const geist = Geist({
