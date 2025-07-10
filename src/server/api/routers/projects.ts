@@ -33,9 +33,15 @@ export const projectsRouter = createTRPCRouter({
         companyId: true,
         status: true,
         materials: true,
+        description: true,
         company: {
           select: {
             name: true,
+          },
+        },
+        _count: {
+          select: {
+            responses: true,
           },
         },
       },

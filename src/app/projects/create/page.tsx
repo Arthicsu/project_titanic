@@ -20,7 +20,7 @@ export default function CreateProjectPage() {
   });
   const [materials, setMaterials] = useState<{ url: string; type: string }[]>([]);
   const createProject = api.project.createProject.useMutation({
-    onSuccess: () => router.push("/"),
+    onSuccess: () => router.push("/dashboard"),
   });
 
   const handleChange = (
@@ -115,7 +115,7 @@ export default function CreateProjectPage() {
               onClientUploadComplete={(res) => {
                 if (res) {
                   const newFiles = res.map((file) => ({
-                    url: file.url,
+                    url: file.ufsUrl,
                     type: file.type,
                   }));
                   setMaterials([...materials, ...newFiles]);
@@ -143,7 +143,7 @@ export default function CreateProjectPage() {
               onClientUploadComplete={(res) => {
                 if (res) {
                   const newFiles = res.map((file) => ({
-                    url: file.url,
+                    url: file.ufsUrl,
                     type: file.type,
                   }));
                   setMaterials([...materials, ...newFiles]);
